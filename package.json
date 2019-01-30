@@ -17,7 +17,7 @@
       "type": "Library"
    },
    "devDependencies": {
-      "scrypted-deploy": "^1.1.0"
+      "scrypted-deploy": "^1.2.7"
    },
    "dependencies": {
       "axios": "^0.18.0"
