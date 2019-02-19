@@ -1,6 +1,6 @@
 {
    "name": "@scrypted/wemo",
-   "version": "0.0.1",
+   "version": "0.0.2",
    "description": "A Wemo plugin for Scrypted",
    "author": "Scrypted",
    "license": "Apache",
@@ -28,13 +28,9 @@
       ]
    },
    "devDependencies": {
-      "@scrypted/sdk": "^0.0.1",
-      "webpack-merge": "^4.2.1",
-      "webpack-relative-aliases": "^1.0.3",
-      "webpack2-relative-aliases": "^1.0.0"
+      "@scrypted/sdk": "^0.0.1"
    },
    "dependencies": {
-      "axios": "^0.18.0",
       "wemo-client": "^0.15.0"
    }
 }
