@@ -1,4 +1,9 @@
 {
+   "name": "@scrypted/wemo",
+   "version": "0.0.1",
+   "description": "A Wemo plugin for Scrypted",
+   "author": "Scrypted",
+   "license": "Apache",
    "scripts": {
       "prepublishOnly": "NODE_ENV=production scrypted-webpack",
       "prescrypted-vscode-launch": "scrypted-webpack",
@@ -9,17 +14,27 @@
       "scrypted-webpack": "scrypted-webpack"
    },
    "keywords": [
+      "wemo",
       "scrypted",
       "plugin"
    ],
    "scrypted": {
-      "name": "Scrypted Visual Studio Code Sample Library",
-      "type": "Library"
+      "name": "Wemo Controller",
+      "singleInstance": true,
+      "type": "Device",
+      "interfaces": [
+         "DeviceProvider",
+         "HttpRequestHandler"
+      ]
    },
    "devDependencies": {
-      "scrypted-deploy": "^1.3.5"
+      "@scrypted/sdk": "^0.0.1",
+      "webpack-merge": "^4.2.1",
+      "webpack-relative-aliases": "^1.0.3",
+      "webpack2-relative-aliases": "^1.0.0"
    },
    "dependencies": {
-      "axios": "^0.18.0"
+      "axios": "^0.18.0",
+      "wemo-client": "^0.15.0"
    }
 }
