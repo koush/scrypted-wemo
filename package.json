@@ -1,6 +1,6 @@
 {
    "name": "@scrypted/wemo",
-   "version": "0.0.2",
+   "version": "0.0.3",
    "description": "A Wemo plugin for Scrypted",
    "author": "Scrypted",
    "license": "Apache",
