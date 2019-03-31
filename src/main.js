@@ -1,4 +1,6 @@
 const Wemo = require('wemo-client');
+const sdk = require('@scrypted/sdk').default;
+const {log, deviceManager} = sdk;
 
 Wemo.prototype._listen = function () {
   // no need to start an http server, use the builtin scrypted one.
@@ -38,32 +40,19 @@ Wemo.prototype._handleRequest = function (req, res) {
 function Device(client, deviceInfo, info) {
   this.client = client;
   this.deviceInfo = deviceInfo;
-  this.state = {};
+  this.state = deviceManager.getDeviceState(deviceInfo.UDN);
 
-  this.client.on('binaryState', (state) => this.onEvent('OnOff', null, null, state === '1'));
-}
-
-Device.prototype.onEvent = function(event, err, response, data) {
-  if (!err) {
-    this.state[event] = data;
-    deviceManager.onDeviceEvent(this.deviceInfo.UDN, event, data)
-  }
+  this.client.on('binaryState', (state) => this.state.on = state === '1');
 }
 
 Device.prototype.turnOn = function () {
-  this.client.setBinaryState(1, (err, response) => this.onEvent('OnOff', err, response, true));
+  this.client.setBinaryState(1, (err, response) => this.state.on = true);
 }
 Device.prototype.turnOff = function () {
-  this.client.setBinaryState(0, (err, response) => this.onEvent('OnOff', err, response, false));
+  this.client.setBinaryState(0, (err, response) => this.state.on = false);
 }
-Device.prototype.isOn = function () {
-  return this.state.OnOff || false;
-}
-Device.prototype.getLevel = function () {
-  return this.state.Brightness || 0;
-};
-Device.prototype.setLevel = function (level) {
-  this.client.setBrightness(level, (err, response) => this.onEvent('Brightness', err, response, level));
+Device.prototype.setBrightness = function (level) {
+  this.client.setBrightness(level, (err, response) => this.state.brightness = level);
 };
 
 var ServiceTypes = {
@@ -106,15 +95,15 @@ function DeviceProvider() {
     var interfaces = supportedType.interfaces;
     var events = interfaces.slice();
 
-    this.devices[deviceInfo.UDN] = new Device(client, deviceInfo);
     var info = {
       name: deviceInfo.friendlyName,
-      id: deviceInfo.UDN,
+      nativeId: deviceInfo.UDN,
       interfaces: interfaces,
       events: events,
     };
 
     deviceManager.onDeviceDiscovered(info);
+    this.devices[deviceInfo.UDN] = new Device(client, deviceInfo);
   });
 }
 

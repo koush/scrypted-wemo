@@ -28,7 +28,7 @@
       ]
    },
    "devDependencies": {
-      "@scrypted/sdk": "^0.0.1"
+      "@scrypted/sdk": "0.0.16"
    },
    "dependencies": {
       "wemo-client": "^0.15.0"
