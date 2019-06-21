@@ -1,6 +1,6 @@
 {
    "name": "@scrypted/wemo",
-   "version": "0.0.3",
+   "version": "0.0.4",
    "description": "A Wemo plugin for Scrypted",
    "author": "Scrypted",
    "license": "Apache",
@@ -28,7 +28,7 @@
       ]
    },
    "devDependencies": {
-      "@scrypted/sdk": "0.0.16"
+      "@scrypted/sdk": "0.0.32"
    },
    "dependencies": {
       "wemo-client": "^0.15.0"
