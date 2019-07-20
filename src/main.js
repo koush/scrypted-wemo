@@ -12,26 +12,28 @@ Wemo.prototype.getCallbackURL = function (opts) {
     var host = this.getLocalInterfaceAddress(opts.clientHostname);
     this._callbackURL = `http://${host}:9080/endpoint/@scrypted/wemo/public/callback`;
   }
+  log.i(`callbackUrl: ${this._callbackURL}`);
   return this._callbackURL;
 }
 
 Wemo.prototype._handleRequest = function (req, res) {
+  log.i('incoming request: ' + req.url);
   var body = req.body;
   var udn = req.url.replace('/endpoint/@scrypted/wemo/public/callback', '').substring(1);
 
   if ((req.method == 'NOTIFY') && this._clients[udn]) {
-    // debug('Incoming Request for %s: %s', udn, body);
+    log.i(`Incoming Request for ${udn}: ${body}`);
     this._clients[udn].handleCallback(body);
     res.send({
       code: 204
-    }, null)
+    }, '');
     // res.writeHead(204);
     // res.end();
   } else {
-    // debug('Received request for unknown device: %s', udn);
+    log.i(`Received request for unknown device: ${udn}`);
     res.send({
       code: 404,
-    })
+    }, '');
     // res.writeHead(404);
     // res.end();
   }
@@ -73,7 +75,7 @@ function DeviceProvider() {
   this.devices = {};
 
   wemo.discover((err, deviceInfo) => {
-    console.log(`Wemo Device Found: ${JSON.stringify(deviceInfo)}`);
+    log.i(`Wemo Device Found: ${JSON.stringify(deviceInfo)}`);
 
     // Get the client for the found device
     var client = wemo.client(deviceInfo);
