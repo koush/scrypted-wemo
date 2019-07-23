@@ -68,6 +68,7 @@ function mapServiceType(serviceType, interfaces, type) {
 mapServiceType(Wemo.DEVICE_TYPE.Switch, ['OnOff'], 'Outlet');
 mapServiceType(Wemo.DEVICE_TYPE.Dimmer, ['OnOff', 'Brightness'], 'Light');
 mapServiceType(Wemo.DEVICE_TYPE.LightSwitch, ['OnOff'], 'Light');
+mapServiceType(Wemo.DEVICE_TYPE.Insight, ['OnOff'], 'Light');
 
 function DeviceProvider() {
   var wemo = new Wemo();
@@ -91,6 +92,7 @@ function DeviceProvider() {
 
     var supportedType = ServiceTypes[deviceInfo.deviceType];
     if (!supportedType) {
+      log.i('device not supported: ' + supportedType);
       return;
     }
 
